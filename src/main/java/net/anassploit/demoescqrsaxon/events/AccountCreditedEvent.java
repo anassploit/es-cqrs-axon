@@ -5,9 +5,8 @@ import lombok.Getter;
 import net.anassploit.demoescqrsaxon.enums.AccountStatus;
 
 @Getter @AllArgsConstructor
-public class AccountCreatedEvent {
+public class AccountCreditedEvent {
     private String accountId;
-    private double initialBalance;
-    private AccountStatus status;
+    private double amount;
     private String currency;
 }

@@ -1,4 +1,3 @@
-package net.anassploit.demoescqrsaxon.commands.controllers.dto;
+package net.anassploit.demoescqrsaxon.commands.dto;
 
-public class AddNewAccountRequestDTO {
-}
+public record AddNewAccountRequestDTO(double initialBalance, String currency) {}
