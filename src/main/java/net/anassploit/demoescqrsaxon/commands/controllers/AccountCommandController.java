@@ -3,8 +3,12 @@ package net.anassploit.demoescqrsaxon.commands.controllers;
 
 import net.anassploit.demoescqrsaxon.commands.commands.AddAccountCommand;
 import net.anassploit.demoescqrsaxon.commands.commands.CreditAccountCommand;
+import net.anassploit.demoescqrsaxon.commands.commands.DebitAccountCommand;
+import net.anassploit.demoescqrsaxon.commands.commands.UpdateAccountStatusCommand;
 import net.anassploit.demoescqrsaxon.commands.dto.AddNewAccountRequestDTO;
 import net.anassploit.demoescqrsaxon.commands.dto.CreditAccountRequestDTO;
+import net.anassploit.demoescqrsaxon.commands.dto.DebitAccountRequestDTO;
+import net.anassploit.demoescqrsaxon.commands.dto.updateAccountStatusRequestDTO;
 import org.axonframework.commandhandling.gateway.CommandGateway;
 import org.axonframework.eventsourcing.eventstore.EventStore;
 import org.springframework.web.bind.annotation.*;
@@ -42,6 +46,25 @@ public class AccountCommandController {
                 request.accountId(),
                 request.amount(),
                 request.currency()
+        ));
+        return response;
+    }
+
+    @PostMapping("/debit")
+    public CompletableFuture<String> debitAccount(@RequestBody DebitAccountRequestDTO request) {
+        CompletableFuture<String> response = commandGateway.send(new DebitAccountCommand(
+                request.accountId(),
+                request.amount(),
+                request.currency()
+        ));
+        return response;
+    }
+
+    @PutMapping("/updateStatus")
+    public CompletableFuture<String> updateAccount(@RequestBody updateAccountStatusRequestDTO request) {
+        CompletableFuture<String> response = commandGateway.send(new UpdateAccountStatusCommand(
+                request.accountId(),
+                request.accountStatus()
         ));
         return response;
     }
