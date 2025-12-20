@@ -1,6 +1,9 @@
 package net.anassploit.demoescqrsaxon.query.handlers;
 
+import net.anassploit.demoescqrsaxon.query.dto.AccountStatementResponseDTO;
 import net.anassploit.demoescqrsaxon.query.entities.Account;
+import net.anassploit.demoescqrsaxon.query.entities.AccountOperation;
+import net.anassploit.demoescqrsaxon.query.queries.GetAccountStatementQuery;
 import net.anassploit.demoescqrsaxon.query.queries.GetAllAccountsQuery;
 import net.anassploit.demoescqrsaxon.query.repository.AccountRepository;
 import net.anassploit.demoescqrsaxon.query.repository.OperationRepository;
@@ -22,5 +25,12 @@ public class AccountQueryHandler {
     @QueryHandler
     public List<Account> getAllAccounts(GetAllAccountsQuery query) {
         return accountRepository.findAll();
+    }
+
+    @QueryHandler
+    public AccountStatementResponseDTO on(GetAccountStatementQuery query) {
+        Account account = accountRepository.findById(query.getAccountId()).get();
+        List<AccountOperation> operations = operationRepository.findByAccountId(query.getAccountId());
+        return new AccountStatementResponseDTO(account, operations);
     }
 }

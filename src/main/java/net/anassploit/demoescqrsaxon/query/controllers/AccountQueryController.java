@@ -1,11 +1,13 @@
 package net.anassploit.demoescqrsaxon.query.controllers;
 
+import net.anassploit.demoescqrsaxon.query.dto.AccountStatementResponseDTO;
 import net.anassploit.demoescqrsaxon.query.entities.Account;
+import net.anassploit.demoescqrsaxon.query.queries.GetAccountStatementQuery;
 import net.anassploit.demoescqrsaxon.query.queries.GetAllAccountsQuery;
 import org.axonframework.messaging.responsetypes.ResponseTypes;
 import org.axonframework.queryhandling.QueryGateway;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -28,6 +30,12 @@ public class AccountQueryController {
                 ResponseTypes.multipleInstancesOf(Account.class)
         );
         return response;
+    }
+
+    @GetMapping("/accouStatement/{accountId}")
+    public CompletableFuture<AccountStatementResponseDTO> getAccountHistory(@PathVariable String accountId) {
+
+        return queryGateway.query(new GetAccountStatementQuery(accountId), ResponseTypes.instanceOf(AccountStatementResponseDTO.class));
     }
 
 }
