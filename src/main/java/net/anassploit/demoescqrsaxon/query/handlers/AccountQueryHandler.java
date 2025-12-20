@@ -5,6 +5,7 @@ import net.anassploit.demoescqrsaxon.query.entities.Account;
 import net.anassploit.demoescqrsaxon.query.entities.AccountOperation;
 import net.anassploit.demoescqrsaxon.query.queries.GetAccountStatementQuery;
 import net.anassploit.demoescqrsaxon.query.queries.GetAllAccountsQuery;
+import net.anassploit.demoescqrsaxon.query.queries.WatchEventQuery;
 import net.anassploit.demoescqrsaxon.query.repository.AccountRepository;
 import net.anassploit.demoescqrsaxon.query.repository.OperationRepository;
 import org.axonframework.queryhandling.QueryHandler;
@@ -32,5 +33,10 @@ public class AccountQueryHandler {
         Account account = accountRepository.findById(query.getAccountId()).get();
         List<AccountOperation> operations = operationRepository.findByAccountId(query.getAccountId());
         return new AccountStatementResponseDTO(account, operations);
+    }
+
+    @QueryHandler
+    public AccountOperation on(WatchEventQuery query) {
+        return AccountOperation.builder().build();
     }
 }
